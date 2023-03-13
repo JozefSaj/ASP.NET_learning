@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspTest.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -20,6 +20,15 @@ namespace AspTest.Controllers
         public IEnumerable<Product> Get()
         {
             return ProductService.GetProducts();
+        }
+        //HttpPut updates the database, HttpPost to make new thing in databse
+        [HttpGet]
+        [Route("Rate")]
+        [HttpGet]
+        public ActionResult Get([FromQuery]string productId, int rating)
+        {
+            ProductService.AddRating(productId, rating);
+            return Ok();
         }
     }
 }
