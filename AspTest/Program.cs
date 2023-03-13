@@ -1,4 +1,6 @@
+using AspTest.Models;
 using AspTest.Services;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -23,6 +26,22 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapGet("/products", (context) =>
+    {
+        var products = app.Services.GetRequiredService<JsonFileProductService>().GetProducts();
+        Console.WriteLine(products);
+        var json = JsonSerializer.Serialize<IEnumerable<Product>>(products);
+        context.Response.ContentType = "application/json";
+        return context.Response.WriteAsJsonAsync(json);
+    });
+});
+
 app.MapRazorPages();
 
 app.Run();
+
+
+
