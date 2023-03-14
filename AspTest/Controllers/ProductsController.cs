@@ -25,6 +25,7 @@ namespace AspTest.Controllers
         [HttpGet]
         [Route("Rate")]
         [HttpGet]
+        //example~~~https://localhost:7197/products/rate/?productId=jenlooper-cactus&rating=5
         public ActionResult Get([FromQuery]string productId, int rating)
         {
             ProductService.AddRating(productId, rating);
